@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ArticleExplorer } from '@/components/article-explorer';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import { articles } from '@/lib/articles';
+import { articleSummaries } from '@/lib/articles';
 
 export const metadata: Metadata = {
   title: '文章｜个人博客',
@@ -20,7 +20,7 @@ export default function ArticlesPage() {
         <p>筛选主题，或从一个关键词开始探索。</p>
       </section>
       <section className="content-section">
-        <ArticleExplorer articles={articles} />
+        <ArticleExplorer articles={articleSummaries} />
       </section>
       <SiteFooter />
     </main>

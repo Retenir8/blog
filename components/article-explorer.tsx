@@ -5,10 +5,10 @@ import { Search, X } from 'lucide-react';
 import { ArticleCard } from '@/components/article-card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { Article } from '@/lib/articles';
+import type { ArticleSummary } from '@/lib/articles';
 
 type ArticleExplorerProps = {
-  articles: Article[];
+  articles: ArticleSummary[];
 };
 
 export function ArticleExplorer({ articles }: ArticleExplorerProps) {
@@ -23,7 +23,7 @@ export function ArticleExplorer({ articles }: ArticleExplorerProps) {
       const matchesTag = activeTag === '全部' || article.tag === activeTag;
       const matchesQuery =
         normalizedQuery.length === 0 ||
-        `${article.title} ${article.description} ${article.tag}`
+        `${article.title} ${article.description} ${article.tag} ${article.searchText}`
           .toLowerCase()
           .includes(normalizedQuery);
 

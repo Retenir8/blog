@@ -1,8 +1,8 @@
 import { ArrowRight } from 'lucide-react';
-import type { Article } from '@/lib/articles';
+import type { ArticleSummary } from '@/lib/articles';
 
 type ArticleCardProps = {
-  article: Article;
+  article: ArticleSummary;
   index: number;
   compact?: boolean;
   visual?: boolean;

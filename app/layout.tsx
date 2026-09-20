@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import 'katex/dist/katex.min.css';
 import './globals.css';
 
-const siteUrl = 'https://clear-thoughts-blog.merry-fern-7951.chatgpt.site';
+const siteUrl = 'https://blog.retenir.chatgpt.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

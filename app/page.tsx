@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import { ArticleCard } from '@/components/article-card';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import { articles } from '@/lib/articles';
+import { articleSummaries as articles } from '@/lib/articles';
 
 export default function Home() {
   const topics = [

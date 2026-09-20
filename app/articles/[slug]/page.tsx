@@ -70,22 +70,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <p>{article.lead}</p>
         </header>
 
-        <div className="glass-card article-body">
-          {article.sections.map((section) => (
-            <section key={section.heading}>
-              <h2>{section.heading}</h2>
-              {section.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+        {article.toc.length > 0 && (
+          <nav className="glass-card article-toc" aria-label="文章目录">
+            <p className="section-kicker">ON THIS PAGE</p>
+            <ol>
+              {article.toc.map((item) => (
+                <li className={item.level === 3 ? 'toc-subitem' : undefined} key={item.id}>
+                  <a href={`#${item.id}`}>{item.title}</a>
+                </li>
               ))}
-              {section.points && (
-                <ul>
-                  {section.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))}
+            </ol>
+          </nav>
+        )}
+
+        <div className="glass-card article-body">
+          <div className="markdown-content" dangerouslySetInnerHTML={{ __html: article.html }} />
         </div>
 
         <nav className="article-pagination" aria-label="文章导航">
