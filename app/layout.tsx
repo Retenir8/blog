@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import 'katex/dist/katex.min.css';
 import './globals.css';
-import { ThemeProvider, themeScript } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/theme-provider';
+import { themeScript } from '@/lib/theme';
 
 const siteUrl = 'https://blog.retenir.chatgpt.site';
 

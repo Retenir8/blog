@@ -1,22 +1,19 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import './intro.css';
 
 export function IntroScreen({ children }: { children?: ReactNode }) {
-  const router = useRouter();
   const [opening, setOpening] = useState(false);
   const [short, setShort] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    router.prefetch('/blog');
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [router]);
+  }, []);
 
   function enter(event: React.MouseEvent<HTMLAnchorElement>) {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
@@ -36,7 +33,7 @@ export function IntroScreen({ children }: { children?: ReactNode }) {
     setShort(visited || reduced);
     setOpening(true);
     timer.current = setTimeout(
-      () => router.push('/blog'),
+      () => window.location.assign('/blog'),
       reduced ? 180 : visited ? 450 : 1100,
     );
   }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { notFound } from 'next/navigation';
 import { BlogLayout } from '@/components/blog-layout';
 import { ArticleToc } from '@/components/article-toc';

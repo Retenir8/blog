@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-provider';

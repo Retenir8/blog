@@ -22,31 +22,31 @@
   --radius-md: 8px;
 }
 :root {
-  --sky-top: #ddeffa;
+  --sky-top: #a9d9f4;
   --sky-bottom: #f7fbfd;
   --background: #f0f7fb;
   --text-main: #182b3c;
   --text-secondary: #627585;
   --line: rgba(48, 82, 106, 0.16);
-  --panel: rgba(255, 255, 255, 0.78);
+  --panel: rgba(255, 255, 255, 0.86);
   --solid-panel: #f7fbfd;
   --soft: rgba(124, 169, 194, 0.09);
   --accent: #387697;
-  --earth-opacity: 0.32;
+  --earth-opacity: 0.86;
   color-scheme: light;
 }
 :root[data-theme='night'] {
-  --sky-top: #10273f;
+  --sky-top: #10243d;
   --sky-bottom: #1d3c59;
   --background: #19354e;
   --text-main: #edf5fa;
   --text-secondary: #afc0cd;
   --line: rgba(220, 235, 245, 0.16);
-  --panel: rgba(17, 43, 65, 0.88);
+  --panel: rgba(17, 36, 57, 0.88);
   --solid-panel: #19364e;
   --soft: rgba(194, 215, 231, 0.07);
   --accent: #a2cede;
-  --earth-opacity: 0.2;
+  --earth-opacity: 0.72;
   color-scheme: dark;
 }
 * {
@@ -58,6 +58,8 @@ html {
   scroll-padding-top: 100px;
 }
 body {
+  isolation: isolate;
+  min-height: 100dvh;
   margin: 0;
   font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
   color: var(--text-main);
@@ -118,35 +120,46 @@ input:focus-visible {
   background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom) 82%);
   transition: background 0.4s;
 }
-.sky-background:before {
+.sky-background:before,
+.sky-background:after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #10273f, #1d3c59);
-  opacity: 0;
+  background: linear-gradient(180deg, #d6efff22, #f0f8ff88), url('/sky-day.jpg') center / cover;
+  opacity: 1;
   transition: opacity 0.4s;
 }
-[data-theme='night'] .sky-background:before {
+.sky-background:after {
+  background: linear-gradient(180deg, #102b4b55, #16395577), url('/sky-night.jpg') center / cover;
+  opacity: 0;
+}
+[data-theme='night'] .sky-background:after {
   opacity: 1;
 }
 .earth-background {
   position: absolute;
+  z-index: 1;
   left: 50%;
   bottom: 0;
-  transform: translate(-50%, 51%);
-  width: min(54vw, 780px);
+  transform: translate(-50%, 55%);
+  width: 104vw;
+  max-width: none;
+  height: 104vw;
   aspect-ratio: 1;
   object-fit: fill;
   border-radius: 50%;
   mask-image: radial-gradient(circle closest-side, #000 93%, transparent 98%);
   opacity: var(--earth-opacity);
-  filter: saturate(0.65);
+  filter: saturate(0.92) brightness(1.06);
   transition:
     opacity 0.4s,
     filter 0.4s;
 }
 .intro-screen {
   background: transparent !important;
+}
+[data-theme='night'] .earth-background {
+  filter: saturate(0.85) brightness(0.68);
 }
 .site-header {
   border-bottom: 1px solid var(--line);
@@ -1037,7 +1050,7 @@ body {
     padding: 32px;
   }
   .earth-background {
-    width: 65vw;
+    width: 104vw;
   }
 }
 @media (max-width: 767px) {
@@ -1096,8 +1109,9 @@ body {
     padding-bottom: 28px;
   }
   .earth-background {
-    width: 100vw;
-    opacity: calc(var(--earth-opacity) * 0.8);
+    width: 112vw;
+    height: 112vw;
+    transform: translate(-50%, 47%);
   }
   .article-heading h1 {
     font-size: 26px;

@@ -7,7 +7,7 @@ import {
   type ReactNode,
   type CSSProperties,
 } from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {

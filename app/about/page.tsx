@@ -88,6 +88,13 @@ export default function AboutPage() {
           影像鸣谢：NASA/NOAA/GSFC/Suomi NPP/VIIRS/Norman
           Kuring。仅作背景展示，不代表相关机构为本站背书。
         </p>
+        <p className="asset-credit">
+          白天云层：<a href="https://unsplash.com/photos/blue-sky-with-white-clouds-xtgONQzGgOE" target="_blank" rel="noreferrer">uriel / Unsplash</a>（Unsplash License）。
+          <br />
+          夜晚银河：<a href="https://www.eso.org/public/images/eso0932a/" target="_blank" rel="noreferrer">ESO/S. Brunier</a>，
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>。
+          图片经网页适配裁切及蓝色遮罩处理。
+        </p>
       </section>
     </BlogLayout>
   );

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { thoughts } from '@/lib/blog-content';
 
 export function RandomThought() {

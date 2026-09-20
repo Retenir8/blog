@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { BlogLayout, PageHeading } from '@/components/blog-layout';
 import { thoughts } from '@/lib/blog-content';
 export const metadata: Metadata = { title: '思考心得｜个人博客' };

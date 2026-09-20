@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { SiteHeader } from '@/components/site-header';
 import { previewSummaries } from '@/lib/articles';
 import { RandomThought } from '@/components/random-thought';

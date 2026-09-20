@@ -10,8 +10,6 @@ import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ThemeContext = createContext({ night: false, toggle: () => {} });
-export const themeScript =
-  "try{document.documentElement.dataset.theme=localStorage.getItem('blog-theme')==='night'?'night':'day'}catch(e){document.documentElement.dataset.theme='day'}";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [night, setNight] = useState(false);
