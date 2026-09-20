@@ -23,13 +23,20 @@ export function ArticleExplorer({ articles }: ArticleExplorerProps) {
       const matchesTag = activeTag === '全部' || article.tag === activeTag;
       const matchesQuery =
         normalizedQuery.length === 0 ||
-        `${article.title} ${article.description} ${article.tag} ${article.searchText}`
+        `${article.title} ${article.description} ${article.tag} ${article.type} ${article.route} ${article.node} ${article.searchText}`
           .toLowerCase()
           .includes(normalizedQuery);
 
       return matchesTag && matchesQuery;
     });
   }, [activeTag, articles, query]);
+
+  const groupedArticles = useMemo(() => {
+    return filteredArticles.reduce<Record<string, ArticleSummary[]>>((groups, article) => {
+      (groups[article.type] ??= []).push(article);
+      return groups;
+    }, {});
+  }, [filteredArticles]);
 
   function clearFilters() {
     setQuery('');
@@ -84,9 +91,19 @@ export function ArticleExplorer({ articles }: ArticleExplorerProps) {
       </p>
 
       {filteredArticles.length > 0 ? (
-        <div className="article-list-grid">
-          {filteredArticles.map((article, index) => (
-            <ArticleCard article={article} compact index={index} key={article.slug} />
+        <div className="search-groups">
+          {Object.entries(groupedArticles).map(([type, group]) => (
+            <section className="search-group" key={type}>
+              <header className="search-group-header">
+                <h2>{type}</h2>
+                <span>{group.length} 篇</span>
+              </header>
+              <div className="article-list-grid">
+                {group.map((article, index) => (
+                  <ArticleCard article={article} compact index={index} key={article.slug} />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       ) : (

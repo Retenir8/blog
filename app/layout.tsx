@@ -6,28 +6,19 @@ const siteUrl = 'https://blog.retenir.chatgpt.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: '个人博客',
-  description: '关于技术、产品与持续成长的个人记录。',
+  title: '个人博客｜AI、实践与长期思考',
+  description: '关于 AI 技能、科研竞赛、项目实践、产品与长期成长的个人知识站。',
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
     url: siteUrl,
-    title: '在复杂世界里，做清晰的事。',
-    description: '关于技术、产品与持续成长的个人记录。',
-    images: [
-      {
-        url: `${siteUrl}/og.png`,
-        width: 1734,
-        height: 907,
-        alt: '在复杂世界里，做清晰的事。',
-      },
-    ],
+    title: '我在探索 AI 时代真正值得投入的事情。',
+    description: '关于 AI 技能、科研竞赛、项目实践、产品与长期成长的个人知识站。',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: '在复杂世界里，做清晰的事。',
-    description: '关于技术、产品与持续成长的个人记录。',
-    images: [`${siteUrl}/og.png`],
+    card: 'summary',
+    title: '我在探索 AI 时代真正值得投入的事情。',
+    description: '关于 AI 技能、科研竞赛、项目实践、产品与长期成长的个人知识站。',
   },
 };
 

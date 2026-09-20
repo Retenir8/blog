@@ -1,6 +1,6 @@
 # 个人博客
 
-一个部署在 OpenAI Sites 上的个人博客。整体采用深色宇宙背景与透明液态玻璃界面，包含首页、文章列表、文章详情和关于页面。
+一个部署在 OpenAI Sites 上的个人知识博客。视觉采用深色未来手册风格、轻量网格与单一青色强调，信息架构围绕指南、实践、思考和知识地图展开。
 
 - 当前线上地址：<https://blog.retenir.chatgpt.site>
 - Sites 项目配置：`.openai/hosting.json`
@@ -26,11 +26,11 @@
 ## 项目目录
 
 ```text
-app/                 页面、布局与全局样式
+app/                 首页、指南、实践、思考、知识地图、文章与全局样式
 components/          站点组件和界面基础组件
-content/articles/     每篇文章一个 Markdown 文件
+content/articles/     每篇文章一个 Markdown / MDX 文件
 lib/articles.ts       Markdown 加载、解析、目录和搜索索引
-public/              宇宙背景、社交分享图等静态资源
+public/              图标与站点静态资源
 .openai/hosting.json OpenAI Sites 项目标识和资源配置
 package.json         依赖与项目命令
 vite.config.ts       Vite、Vinext 和 Sites 构建配置
@@ -79,14 +79,14 @@ pnpm build
 
 ## 内容维护
 
-博客文章保存在 `content/articles/`，每篇文章对应一个 `.md` 文件。文件名会成为文章地址，例如：
+博客文章保存在 `content/articles/`，每篇文章对应一个 `.md` 或 `.mdx` 文件。文件名会成为文章地址，例如：
 
 ```text
 content/articles/my-first-note.md
 → /articles/my-first-note
 ```
 
-文章使用 YAML Front Matter 管理标题、摘要、日期与标签：
+文章使用 YAML Front Matter 管理标题、摘要、日期、类型与知识位置：
 
 ```markdown
 ---
@@ -95,6 +95,9 @@ description: 用于文章列表和搜索结果的摘要
 lead: 文章页标题下方的导语
 date: '2026-09-20'
 tag: 技术观察
+type: 思考
+route: AI 技能
+node: 让 AI 成为协作者
 readingTime: 6 分钟
 ---
 
@@ -103,7 +106,7 @@ readingTime: 6 分钟
 从这里开始写正文。
 ```
 
-支持标题、列表、引用、链接、图片、表格、代码块和数学公式。目录会根据二级、三级标题自动生成，搜索也会包含 Markdown 正文。
+`type` 用于把内容分为指南、实践与思考，`route` 和 `node` 用于文章页的路线定位与知识地图关联。正文支持标题、列表、引用、链接、图片、表格、代码块和数学公式；目录会根据二级、三级标题自动生成，搜索会覆盖元数据和 Markdown 正文。`.mdx` 文件当前兼容 Markdown 写法并为后续扩展预留入口，正文中的 JSX 自定义组件暂未启用。
 
 行内公式使用 `$t = L / R$`，独立公式使用：
 

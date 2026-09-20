@@ -4,58 +4,56 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 
 export const metadata: Metadata = {
-  title: '关于｜个人博客',
-  description: '关于这位写作者，以及这个博客为何存在。',
+  title: '关于我｜个人博客',
+  description: '我是谁、正在做什么，以及这个博客为什么存在。',
 };
-
-const topics = ['技术与人', '产品判断', '思考方法', '数字生活'];
 
 export default function AboutPage() {
   return (
     <main>
-      <div className="page-nebula page-nebula-about" aria-hidden="true" />
       <SiteHeader active="about" />
-
-      <section className="inner-hero about-hero">
-        <p className="section-kicker">ABOUT</p>
-        <h1>你好，我在这里记录<br />值得慢下来思考的事。</h1>
-        <p>
-          这是一个关于技术、产品与日常观察的个人空间。
-          比起追逐每一个新消息，我更想理解变化背后的原因。
-        </p>
+      <section className="page-intro">
+        <p className="section-kicker">ABOUT / 关于我</p>
+        <h1>我是一名在软件与 AI 方向持续学习、实践和写作的学生。</h1>
+        <p>这个博客不是履历展柜，而是我对所学、所做和所相信之事的持续校准。</p>
       </section>
 
-      <section className="content-section about-page-grid">
-        <article className="glass-card profile-card">
-          <p className="section-kicker">WHY I WRITE</p>
-          <h2>写作，让模糊的判断变得可见。</h2>
-          <div className="prose-copy">
-            <p>
-              很多想法在脑海里显得完整，直到它们需要被写下来。写作迫使我确认概念的边界、证据的重量，以及自己真正相信什么。
-            </p>
-            <p>
-              这里的文章来自正在经历的项目、读过的书、使用过的工具和生活里的微小观察。它们不是最终答案，而是持续更新的坐标。
-            </p>
-          </div>
-        </article>
+      <section className="content-section about-layout">
+        <div>
+          <article className="about-block">
+            <h2>我正在做什么</h2>
+            <p>学习 AI 与软件开发，尝试把新能力放进科研、项目和个人工作流；同时记录那些真正改变判断的过程，而不只保存最后结果。</p>
+          </article>
+          <article className="about-block">
+            <h2>我在意什么</h2>
+            <ul>
+              <li>一个问题是否真实，是否值得长期投入。</li>
+              <li>技术是否帮助人获得更清晰的判断和更大的行动空间。</li>
+              <li>项目是否经过验证，而不是只在表达上显得完整。</li>
+              <li>成长是否留下可复用的方法，而不是短暂的忙碌感。</li>
+            </ul>
+          </article>
+          <article className="about-block">
+            <h2>为什么写这个博客</h2>
+            <p>写作迫使模糊的想法暴露边界，也让过去的经验可以重新被检验。这里会持续收录路线、实践和思考，让每一次探索都能成为下一次行动的坐标。</p>
+            <a className="inline-link" href="/articles">查看全部内容 <ArrowRight size={15} /></a>
+          </article>
+        </div>
 
-        <aside className="glass-card topics-card">
-          <p className="section-kicker">CURRENTLY EXPLORING</p>
-          <h2>持续关注</h2>
-          <ul>
-            {topics.map((topic, index) => (
-              <li key={topic}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                {topic}
-              </li>
-            ))}
-          </ul>
-          <a href="/articles">
-            浏览全部文章 <ArrowRight size={16} />
-          </a>
+        <aside className="position-panel">
+          <p className="section-kicker">CURRENT POSITION</p>
+          <dl>
+            <dt>当前身份</dt>
+            <dd>软件与 AI 方向学生</dd>
+            <dt>正在探索</dt>
+            <dd>AI Agent、科研效率、产品验证、OPC</dd>
+            <dt>公开内容</dt>
+            <dd>指南、项目复盘、长期思考与知识节点</dd>
+            <dt>更新原则</dt>
+            <dd>诚实记录、持续修正、避免夸张包装</dd>
+          </dl>
         </aside>
       </section>
-
       <SiteFooter />
     </main>
   );

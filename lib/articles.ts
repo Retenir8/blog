@@ -16,6 +16,9 @@ export type ArticleSummary = {
   date: string;
   dateISO: string;
   tag: string;
+  type: string;
+  route: string;
+  node: string;
   readingTime: string;
   searchText: string;
 };
@@ -31,6 +34,9 @@ type ArticleFrontMatter = {
   lead?: unknown;
   date?: unknown;
   tag?: unknown;
+  type?: unknown;
+  route?: unknown;
+  node?: unknown;
   readingTime?: unknown;
 };
 
@@ -72,7 +78,7 @@ markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
   return self.renderToken(tokens, index, options);
 };
 
-const articleModules = import.meta.glob<string>('../content/articles/*.md', {
+const articleModules = import.meta.glob<string>('../content/articles/*.{md,mdx}', {
   eager: true,
   import: 'default',
   query: '?raw',
@@ -99,7 +105,7 @@ function parseArticle(path: string, source: string): Article {
 
   const metadata = parseYaml(frontMatterMatch[1]) as ArticleFrontMatter;
   const body = frontMatterMatch[2].trim();
-  const slug = path.split('/').pop()?.replace(/\.md$/, '') ?? '';
+  const slug = path.split('/').pop()?.replace(/\.mdx?$/, '') ?? '';
   const dateISO = requireString(metadata.date, 'date', path);
   const renderEnvironment: RenderEnvironment = {
     toc: [],
@@ -114,8 +120,16 @@ function parseArticle(path: string, source: string): Article {
     date: dateISO.replaceAll('-', '.'),
     dateISO,
     tag: requireString(metadata.tag, 'tag', path),
+    type: requireString(metadata.type, 'type', path),
+    route: requireString(metadata.route, 'route', path),
+    node: requireString(metadata.node, 'node', path),
     readingTime: requireString(metadata.readingTime, 'readingTime', path),
-    searchText: body.replace(/[`*_>#\[\]$|~-]/g, ' ').replace(/\s+/g, ' ').trim(),
+    searchText: body
+      .replaceAll('[', ' ')
+      .replaceAll(']', ' ')
+      .replace(/[`*_>#$|~-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim(),
     html: markdown.render(body, renderEnvironment),
     toc: renderEnvironment.toc,
   };

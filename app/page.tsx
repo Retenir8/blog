@@ -1,176 +1,169 @@
 import { ArrowRight } from 'lucide-react';
-import { ArticleCard } from '@/components/article-card';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import { articleSummaries as articles } from '@/lib/articles';
+import { articleSummaries } from '@/lib/articles';
+
+const needs = [
+  ['我想掌握 AI 技能', '从工具使用到个人工作流', '查看路线', '/guides#ai'],
+  ['我准备开始做科研', '从选题、检索到实验与写作', '查看路线', '/guides#research'],
+  ['我准备参加竞赛', '从组队、项目设计到答辩', '查看路线', '/guides#competition'],
+  ['我想做项目或产品', '从想法、验证到真实交付', '查看实践', '/practice'],
+  ['我对未来有些迷茫', '关于选择、成长与长期投入', '阅读思考', '/thoughts'],
+  ['我想看看你的经历', '项目、学习与探索中的真实过程', '了解更多', '/about'],
+];
+
+const coordinates = [
+  { name: 'AI', progress: 82, status: '深入中', href: '/guides#ai' },
+  { name: '科研', progress: 62, status: '实践中', href: '/guides#research' },
+  { name: '竞赛', progress: 71, status: '持续复盘', href: '/guides#competition' },
+  { name: '产品', progress: 54, status: '探索中', href: '/practice' },
+  { name: 'OPC / 创业', progress: 38, status: '试验中', href: '/thoughts' },
+  { name: '人生与成长', progress: 78, status: '长期记录', href: '/thoughts' },
+];
+
+const updates = [
+  ['2026.09', '研究 Agent 在科研场景中的使用方式'],
+  ['2026.09', '整理项目从想法到上线的完整复盘'],
+  ['2026.08', '重新思考个人工作流与长期能力杠杆'],
+];
 
 export default function Home() {
-  const topics = [
-    ['01', '思考方法', '把复杂问题变得清晰'],
-    ['02', '产品实践', '从想法走向真实体验'],
-    ['03', '技术观察', '理解工具与人的关系'],
-    ['04', '数字生活', '建立可持续的个人系统'],
-  ];
-
   return (
-    <main className="home-main">
-      <div className="ambient ambient-one" aria-hidden="true" />
-      <div className="ambient ambient-two" aria-hidden="true" />
-      <SiteHeader active="home" variant="overlay" />
+    <main className="site-main">
+      <SiteHeader active="home" />
 
-      <section className="hero" id="top">
-        <div className="hero-image" aria-hidden="true" />
-        <div className="hero-vignette" aria-hidden="true" />
-        <div className="hero-layout">
-          <div className="hero-content">
-            <p className="eyebrow">A PERSONAL SPACE FOR CLEAR THINKING</p>
-            <h1>
-              在复杂世界里，
-              <span>做清晰的事。</span>
-            </h1>
-            <p className="hero-copy">
-              记录我对技术、产品与日常的持续观察。
-              <br />
-              保留好奇，也保留独立判断。
-            </p>
-            <div className="hero-actions">
-              <a className="primary-button" href="/articles">
-                开始阅读 <ArrowRight size={17} />
-              </a>
-              <a className="text-button" href="/about">
-                关于我
-              </a>
-            </div>
+      <section className="home-hero page-shell">
+        <div className="coordinate-label" aria-hidden="true">
+          <span>当前位置</span>
+          <strong>起点 / 2026</strong>
+        </div>
+        <div className="home-hero-copy">
+          <p className="section-kicker">探索、实践与长期思考</p>
+          <h1>我在探索 AI 时代真正值得投入的事情。</h1>
+          <p>
+            这里记录 AI 技能、科研竞赛、项目实践、产品与创业，
+            也记录我对成长、选择与时代变化的长期思考。
+          </p>
+          <div className="hero-actions">
+            <a className="primary-button" href="#start">
+              从哪里开始 <ArrowRight size={16} />
+            </a>
+            <a className="secondary-button" href="#latest">
+              查看最近更新
+            </a>
           </div>
+        </div>
+        <aside className="focus-panel" aria-label="当前关注">
+          <span>当前关注</span>
+          <p>AI Agent · 科研效率 · OPC · 产品验证</p>
+          <i aria-hidden="true" />
+          <small>持续更新于 2026.09</small>
+        </aside>
+      </section>
 
-          <aside className="glass-card hero-note" aria-label="博客概览">
-            <p className="section-kicker">CURRENT FOCUS</p>
-            <h2>技术如何成为人的延伸</h2>
-            <p>
-              关注工具背后的选择，也关注人在变化中如何保持判断、创造与好奇。
-            </p>
-            <div className="hero-stats">
+      <section className="page-section page-shell" id="start">
+        <div className="section-heading">
+          <div>
+            <p className="section-kicker">问题导航</p>
+            <h2>你现在最想解决什么问题？</h2>
+          </div>
+          <p>不必从分类开始，先从你真正关心的问题进入。</p>
+        </div>
+        <div className="need-grid">
+          {needs.map(([title, description, action, href], index) => (
+            <a className="route-card" href={href} key={title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
               <div>
-                <strong>{String(articles.length).padStart(2, '0')}</strong>
-                <span>篇文章</span>
+                <h3>{title}</h3>
+                <p>{description}</p>
               </div>
+              <strong>{action} <ArrowRight size={15} /></strong>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="page-section page-shell" id="latest">
+        <div className="section-heading compact-heading">
+          <div>
+            <p className="section-kicker">精选内容</p>
+            <h2>最近值得读</h2>
+          </div>
+          <a className="inline-link" href="/articles">
+            查看全部内容 <ArrowRight size={15} />
+          </a>
+        </div>
+        <div className="reading-index">
+          {articleSummaries.slice(0, 5).map((article, index) => (
+            <a href={`/articles/${article.slug}`} key={article.slug}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
               <div>
-                <strong>04</strong>
-                <span>个主题</span>
+                <h3>{article.title}</h3>
+                <p>{article.description}</p>
               </div>
-              <div>
-                <strong>∞</strong>
-                <span>持续探索</span>
+              <small>{article.tag} · {article.readingTime}</small>
+              <ArrowRight size={16} />
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="page-section page-shell exploration-section">
+        <div className="section-heading">
+          <div>
+            <p className="section-kicker">持续探索</p>
+            <h2>我的探索坐标</h2>
+          </div>
+          <p>这些不是能力评分，而是我当前投入注意力的相对位置。</p>
+        </div>
+        <div className="coordinate-grid">
+          {coordinates.map((item) => (
+            <a href={item.href} key={item.name}>
+              <div className="coordinate-meta">
+                <strong>{item.name}</strong>
+                <span>{item.status}</span>
               </div>
+              <div className="progress-track" aria-label={`${item.name}：${item.status}`}>
+                <i style={{ width: `${item.progress}%` }} />
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="page-section page-shell activity-section">
+        <div className="section-heading compact-heading">
+          <div>
+            <p className="section-kicker">当前动态</p>
+            <h2>最近在做什么</h2>
+          </div>
+          <a className="inline-link" href="/about">
+            了解我的位置 <ArrowRight size={15} />
+          </a>
+        </div>
+        <div className="activity-list">
+          {updates.map(([date, content]) => (
+            <div key={content}>
+              <time>{date}</time>
+              <i aria-hidden="true" />
+              <p>{content}</p>
             </div>
-          </aside>
+          ))}
         </div>
+      </section>
 
-        <div className="hero-bottom-line" aria-hidden="true">
-          <span>THOUGHTS</span>
-          <i />
-          <span>PRODUCT</span>
-          <i />
-          <span>TECHNOLOGY</span>
+      <section className="collaboration-band page-shell">
+        <div>
+          <p className="section-kicker">一起做有意思的事情</p>
+          <h2>如果你也在认真解决问题，我们可以聊聊。</h2>
+          <p>AI / 科研 / 竞赛 / 产品 / OPC / 内容合作</p>
         </div>
-        <a className="scroll-cue" href="#articles" aria-label="向下浏览最新文章">
-          <span>SCROLL</span>
-          <i />
+        <a className="primary-button" href="/collaborate">
+          查看合作方式 <ArrowRight size={16} />
         </a>
       </section>
 
-      <div className="home-sections">
-        <section className="section" id="articles">
-          <div className="section-heading">
-            <div>
-              <p className="section-kicker">RECENT NOTES</p>
-              <h2>最新文章</h2>
-            </div>
-            <a className="view-all" href="/articles">
-              查看全部 <ArrowRight size={16} />
-            </a>
-          </div>
-
-          <div className="article-grid home-article-grid">
-            {articles.slice(0, 3).map((article, index) => (
-              <ArticleCard article={article} index={index} key={article.slug} visual />
-            ))}
-          </div>
-        </section>
-
-        <section className="section topics-section" aria-labelledby="topics-title">
-          <div className="glass-card topics-module">
-            <div className="module-intro">
-              <p className="section-kicker">EXPLORE</p>
-              <h2 id="topics-title">探索主题</h2>
-              <p>从问题出发，在不同领域之间寻找可以反复使用的认识。</p>
-            </div>
-            <div className="topic-grid">
-              {topics.map(([number, title, description]) => (
-                <a href="/articles#search" key={number}>
-                  <span>{number}</span>
-                  <strong>{title}</strong>
-                  <p>{description}</p>
-                  <ArrowRight size={15} />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section home-split" id="about">
-          <div className="glass-card about-card home-about-card">
-            <div>
-              <p className="section-kicker">ABOUT</p>
-              <h2>在这里，记录长期思考。</h2>
-            </div>
-            <div className="about-copy">
-              <p>
-                我关注技术如何塑造人的选择，也关心产品背后的判断、学习与生活本身。
-                这个博客不追逐信息洪流，只留下值得反复回看的内容。
-              </p>
-              <a href="/about">
-                了解更多 <ArrowRight size={16} />
-              </a>
-            </div>
-          </div>
-
-          <aside className="glass-card thought-card">
-            <p className="section-kicker">RECENT THOUGHT</p>
-            <blockquote>“好的工具不替人决定，它放大人的判断。”</blockquote>
-            <p>
-              在自动化越来越强的时代，真正稀缺的依然是知道什么值得做，以及为什么去做。
-            </p>
-          </aside>
-        </section>
-
-        <section className="section reading-section" aria-labelledby="reading-title">
-          <div className="glass-card reading-module">
-            <div className="reading-intro">
-              <p className="section-kicker">START HERE</p>
-              <h2 id="reading-title">从这里开始</h2>
-              <p>如果你第一次来到这里，这几篇文章最能代表这个博客正在思考的方向。</p>
-            </div>
-            <a className="featured-reading" href={`/articles/${articles[0].slug}`}>
-              <span>{articles[0].tag}</span>
-              <strong>{articles[0].title}</strong>
-              <p>{articles[0].description}</p>
-              <i>阅读文章 <ArrowRight size={15} /></i>
-            </a>
-            <div className="reading-list">
-              {articles.slice(1, 4).map((article, index) => (
-                <a href={`/articles/${article.slug}`} key={article.slug}>
-                  <span>{String(index + 2).padStart(2, '0')}</span>
-                  <strong>{article.title}</strong>
-                  <ArrowRight size={15} />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <SiteFooter />
-      </div>
+      <SiteFooter />
     </main>
   );
 }
