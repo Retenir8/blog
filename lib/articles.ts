@@ -78,26 +78,47 @@ markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
   return self.renderToken(tokens, index, options);
 };
 
-const articleModules = import.meta.glob<string>('../content/articles/*.{md,mdx}', {
+const articleModules = import.meta.glob<string>(
+  '../content/articles/*.{md,mdx}',
+  {
+    eager: true,
+    import: 'default',
+    query: '?raw',
+  },
+);
+
+export const articles: Article[] = Object.entries(articleModules)
+  .map(([path, source]) => parseArticle(path, source))
+  .sort((first, second) => second.dateISO.localeCompare(first.dateISO));
+
+const previewModules = import.meta.glob<string>('../content/previews/*.md', {
   eager: true,
   import: 'default',
   query: '?raw',
 });
 
-export const articles: Article[] = Object.entries(articleModules)
+// Design-stage content is isolated so the original writing stays intact.
+export const previewArticles = Object.entries(previewModules)
   .map(([path, source]) => parseArticle(path, source))
-  .sort((first, second) => second.dateISO.localeCompare(first.dateISO));
+  .sort((a, b) => b.dateISO.localeCompare(a.dateISO));
+export const previewSummaries: ArticleSummary[] = previewArticles.map(
+  ({ html: _html, toc: _toc, ...summary }) => summary,
+);
 
 export const articleSummaries: ArticleSummary[] = articles.map(
   ({ html: _html, toc: _toc, ...summary }) => summary,
 );
 
 export function getArticle(slug: string) {
-  return articles.find((article) => article.slug === slug);
+  return [...previewArticles, ...articles].find(
+    (article) => article.slug === slug,
+  );
 }
 
 function parseArticle(path: string, source: string): Article {
-  const frontMatterMatch = source.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
+  const frontMatterMatch = source.match(
+    /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/,
+  );
 
   if (!frontMatterMatch) {
     throw new Error(`文章缺少 Front Matter：${path}`);
@@ -105,7 +126,11 @@ function parseArticle(path: string, source: string): Article {
 
   const metadata = parseYaml(frontMatterMatch[1]) as ArticleFrontMatter;
   const body = frontMatterMatch[2].trim();
-  const slug = path.split('/').pop()?.replace(/\.mdx?$/, '') ?? '';
+  const slug =
+    path
+      .split('/')
+      .pop()
+      ?.replace(/\.mdx?$/, '') ?? '';
   const dateISO = requireString(metadata.date, 'date', path);
   const renderEnvironment: RenderEnvironment = {
     toc: [],

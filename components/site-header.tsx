@@ -1,80 +1,98 @@
-import { Menu, Search } from 'lucide-react';
-
-export type NavigationKey =
-  | 'home'
-  | 'guides'
-  | 'practice'
-  | 'thoughts'
-  | 'map'
-  | 'about'
-  | 'collaborate'
-  | 'articles';
-
-type SiteHeaderProps = {
-  active: NavigationKey;
-};
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-provider';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 
 const links = [
-  { href: '/', label: '首页', key: 'home' },
-  { href: '/guides', label: '指南', key: 'guides' },
-  { href: '/practice', label: '实践', key: 'practice' },
-  { href: '/thoughts', label: '思考', key: 'thoughts' },
-  { href: '/map', label: '知识地图', key: 'map' },
-  { href: '/about', label: '关于我', key: 'about' },
-] as const;
-
-function NavigationLinks({ active }: { active: NavigationKey }) {
-  return (
-    <>
-      {links.map((link) => (
-        <a
-          aria-current={active === link.key ? 'page' : undefined}
-          className={`nav-link ${active === link.key ? 'active' : ''}`}
-          href={link.href}
-          key={link.key}
-        >
-          {link.label}
-        </a>
-      ))}
-    </>
-  );
-}
-
-export function SiteHeader({ active }: SiteHeaderProps) {
+  ['blog', '近期发布'],
+  ['archive', '归档与搜索'],
+  ['thoughts', '思考心得'],
+  ['knowledge', '知识图谱'],
+  ['about', '关于与合作'],
+];
+export function SiteHeader({ active }: { active: string }) {
+  const [open, setOpen] = useState(false);
   return (
     <header className="site-header">
-      <nav className="nav-shell" aria-label="主导航">
-        <a className="site-brand" href="/" aria-label="个人博客首页">
-          <span aria-hidden="true" />
-          个人博客
-        </a>
-
-        <div className="nav-links">
-          <NavigationLinks active={active} />
+      <a className="skip-link" href="#main-content">
+        跳到主要内容
+      </a>
+      <div className="nav-shell">
+        <Link className="site-brand" href="/">
+          个人博客<span aria-hidden="true">.</span>
+        </Link>
+        <nav className="desktop-nav" aria-label="主导航">
+          {links.map(([key, label]) => (
+            <Link
+              key={key}
+              className={active === key ? 'active' : ''}
+              aria-current={active === key ? 'page' : undefined}
+              href={`/${key}`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <div className="header-actions">
+          <ThemeToggle />
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="mobile-menu-button"
+                  aria-label="打开导航"
+                />
+              }
+            >
+              <Menu size={20} />
+            </SheetTrigger>
+            <SheetContent
+              side="bottom"
+              className="mobile-menu-sheet"
+              showCloseButton={false}
+            >
+              <SheetTitle>去哪里看看</SheetTitle>
+              <SheetDescription>选择一个栏目，继续阅读。</SheetDescription>
+              <SheetClose
+                render={
+                  <Button
+                    className="sheet-close"
+                    variant="ghost"
+                    size="icon"
+                    aria-label="关闭导航"
+                  />
+                }
+              >
+                <X size={18} />
+              </SheetClose>
+              <nav aria-label="移动端导航">
+                {links.map(([key, label]) => (
+                  <Link
+                    key={key}
+                    className={active === key ? 'active' : ''}
+                    href={`/${key}`}
+                    onClick={() => setOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
-
-        <div className="nav-actions">
-          <a className="search-link" href="/articles#search" aria-label="搜索内容">
-            <Search size={16} strokeWidth={1.8} />
-            <span>搜索</span>
-          </a>
-          <a className={`collaborate-link ${active === 'collaborate' ? 'active' : ''}`} href="/collaborate">
-            合作
-          </a>
-        </div>
-
-        <details className="mobile-nav">
-          <summary aria-label="打开导航菜单">
-            <Menu size={19} />
-            <span>菜单</span>
-          </summary>
-          <div className="mobile-nav-panel">
-            <NavigationLinks active={active} />
-            <a className="nav-link" href="/articles#search">搜索内容</a>
-            <a className="nav-link" href="/collaborate">合作</a>
-          </div>
-        </details>
-      </nav>
+      </div>
     </header>
   );
 }

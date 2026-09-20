@@ -1,6 +1,22 @@
 # 个人博客
 
-一个部署在 OpenAI Sites 上的个人知识博客。视觉采用深色未来手册风格、轻量网格与单一青色强调，信息架构围绕指南、实践、思考和知识地图展开。
+一个部署在 OpenAI Sites 上的个人博客，按 v2 规格重构为黑白斜切开场、浅蓝天空与半个地球背景、传统三栏阅读布局。保留 Vinext、React 和原有 Markdown 渲染系统。
+
+## 页面与交互
+
+- `/`：不滚动的黑白开场；点击进入后，两片幕布分开，露出博客。首次会话动画 1100ms，重复进入缩短；支持减少动态效果。
+- `/blog`：近期发布，文字列表，最多一条置顶。
+- `/archive`：分类、月份归档与全文搜索；结果在本页更新。
+- `/thoughts`：短思考时间流。
+- `/knowledge`：六个稳定的星球节点、关联线、桌面右侧详情、移动端底部抽屉。
+- `/about`：关于、经历与合作，联系方式明确标记待补充。
+- `/articles/[slug]`：Markdown 阅读页，桌面章节目录与前后篇导航。
+
+旧的 `/articles`、`/guides`、`/practice`、`/map`、`/collaborate` 入口分别重定向到新栏目，历史文章链接继续可访问。
+
+本阶段按设计规格只展示四篇简单占位文章，存放于 `content/previews/`。原有正文保留在 `content/articles/`，未覆盖。切换正式内容时，把页面使用的 `previewSummaries` / `previewArticles` 替换为对应的正式集合即可。
+
+昼夜主题保存在本机 `localStorage`；首次默认白天天空。地球使用 NASA 专业卫星合成影像，来源和鸣谢记录在 `ASSETS.md` 与关于页，图片随站点发布，不依赖外部图片请求。
 
 - 当前线上地址：<https://blog.retenir.chatgpt.site>
 - Sites 项目配置：`.openai/hosting.json`
@@ -26,9 +42,10 @@
 ## 项目目录
 
 ```text
-app/                 首页、指南、实践、思考、知识地图、文章与全局样式
+app/                 开场、近期、归档、思考、图谱、关于、文章与全局样式
 components/          站点组件和界面基础组件
 content/articles/     每篇文章一个 Markdown / MDX 文件
+content/previews/     v2 设计阶段占位文章，独立于原始内容
 lib/articles.ts       Markdown 加载、解析、目录和搜索索引
 public/              图标与站点静态资源
 .openai/hosting.json OpenAI Sites 项目标识和资源配置
