@@ -79,7 +79,7 @@ export function inspect(source, slug) {
     meta.tag &&
     !['AI', '科研', '竞赛', '产品', '创业', '成长', '其他'].includes(meta.tag)
   )
-    warnings.push('使用了新分类，发布时需要同步调整分类和知识图谱。');
+    warnings.push('使用了新分类，发布前请确认归档筛选是否需要纳入它。');
   if (/占位|待填写|你的文章标题/.test(source))
     warnings.push('还有模板占位文字，请在交付前确认。');
   return {
@@ -236,7 +236,7 @@ export function createWorkstation({
           JSON.stringify(item, null, 2),
           { flag: 'wx' },
         );
-        const handoff = `请将本地待发布文章发布到我的博客。\n文章文件：${path.join(dir, `${id}.md`)}\n建议文章地址：${item.slug}\n备注：${item.notes || '无'}\n请检查图片、分类和知识图谱，并将内容加入正式列表；不要只添加文章文件而遗漏当前 previewSummaries 的展示入口。发布前核对同名文章，未经确认不要覆盖。\n`;
+        const handoff = `请将本地待发布文章发布到我的博客。\n文章文件：${path.join(dir, `${id}.md`)}\n建议文章地址：${item.slug}\n备注：${item.notes || '无'}\n请检查图片与分类，将确认发布的文章移入 content/articles/ 并设置 published: true；发布前核对同名文章，未经确认不要覆盖。知识图谱暂未开放。\n`;
         if (kind === 'ready')
           await writeFile(path.join(dir, `${id}-交付说明.txt`), handoff, {
             flag: 'wx',

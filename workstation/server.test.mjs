@@ -89,7 +89,7 @@ test('仅本地接口、预览隔离、独立保存及交付', async () => {
       await post('/api/save', { source: sample, slug: 'test', kind: 'ready' })
     ).json();
     assert.notEqual(first.path, second.path);
-    assert.ok(first.handoff.includes('previewSummaries'));
+    assert.ok(first.handoff.includes('published: true'));
     assert.equal(await readFile(first.path, 'utf8'), sample);
     assert.equal((await (await fetch(base + '/api/list')).json()).length, 2);
     assert.equal(

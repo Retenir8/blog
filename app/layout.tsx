@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import 'katex/dist/katex.min.css';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
+import { VisitProvider } from '@/components/visit-stats';
 import { themeScript } from '@/lib/theme';
 
 const siteUrl = process.env.SITE_URL ||
@@ -11,19 +12,19 @@ const siteUrl = process.env.SITE_URL ||
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: '个人博客｜记录与思考',
-  description: '关于 AI，关于选择，关于正在经历的世界。',
+  title: 'Retenir 的博客｜经验、AI 与同行',
+  description: '分享自己的经验，探索 AI 的边界，寻找同行的人。',
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
     url: siteUrl,
-    title: '我想记录一些真正值得留下的东西。',
-    description: '关于 AI，关于选择，关于正在经历的世界。',
+    title: 'Retenir 的博客｜经验、AI 与同行',
+    description: '分享自己的经验，探索 AI 的边界，寻找同行的人。',
   },
   twitter: {
     card: 'summary',
-    title: '我想记录一些真正值得留下的东西。',
-    description: '关于 AI，关于选择，关于正在经历的世界。',
+    title: 'Retenir 的博客｜经验、AI 与同行',
+    description: '分享自己的经验，探索 AI 的边界，寻找同行的人。',
   },
 };
 
@@ -39,6 +40,7 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
+          <VisitProvider>
           <div className="sky-background" aria-hidden="true">
             <img
               className="earth-background"
@@ -49,6 +51,7 @@ export default function RootLayout({
             />
           </div>
           {children}
+          </VisitProvider>
         </ThemeProvider>
       </body>
     </html>

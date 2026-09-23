@@ -1,4 +1,4 @@
-# 个人博客
+# Retenir 的博客
 
 使用 **Next.js 16.3.6 App Router + React + TypeScript + Tailwind CSS**，保留昼夜天空、NASA 地球背景、开场动画和 Markdown 文章系统。部署目标为 **GitHub + Vercel Git 自动部署**，支持私有仓库。
 
@@ -41,13 +41,17 @@ pnpm start
 
 旧 `chatgpt.site` 平台子域名不会迁移到 Vercel，新部署获得 `vercel.app` 地址或使用自有域名。确认迁移完成后再单独决定是否关闭旧站。
 
+### 访问统计
+
+页脚显示全站浏览量和独立访客数。本站通过 Vercel 的免费 Upstash Redis 存储计数，Vercel 连接资源后自动注入 `KV_REST_API_URL`、`KV_REST_API_TOKEN`，不要把这些值提交到 Git。未连接数据库的本地环境会显示 `—`。访问时浏览器会保存一年有效的随机匿名标识，Redis 中对应键也在一年后过期；独立访客按浏览器标识统计，不等同于真实自然人数。每次页面加载会增加一次浏览量。
+
 ## 页面与内容
 
-`/` 开场；`/blog` 近期；`/archive` 搜索；`/thoughts` 思考；`/knowledge` 图谱；`/about` 关于；`/articles/[slug]` 文章。旧 `/articles`、`/guides`、`/map`、`/practice`、`/collaborate` 入口保留跳转。
+`/` 开场；`/blog` 近期；`/archive` 搜索；`/thoughts` 思考；`/knowledge` 图谱（暂未开放）；`/about` 关于；`/articles/[slug]` 文章。旧 `/articles`、`/guides`、`/map`、`/practice`、`/collaborate` 入口保留跳转。
 
-列表、归档与知识图谱统一使用 `visibleSummaries`：展示 `content/articles/` 中设置 `published: true` 的已批准文章，以及原有 `content/previews/` 设计内容。未标记的历史文章仍可通过原链接访问，不自动加入列表。发布新文时在 Front Matter 中添加 `published: true`，并确认分类与正文后提交。
+列表、归档、近期侧栏和文章直达页只展示 `content/articles/` 中设置 `published: true` 的已批准文章。设计期的四篇占位文章已移除；未标记的历史文章保留在源码中，但不会公开路由。发布新文时在 Front Matter 中添加 `published: true`，并确认分类与正文后提交。
 
-`lib/articles.ts` 只在服务端读取 `content/`，使用 Markdown-it、YAML、KaTeX 渲染文章、公式和目录，不再依赖 `import.meta.glob`。文件名决定文章地址，例如 `my-first-note.md` 对应 `/articles/my-first-note`。
+`lib/articles.ts` 只在服务端读取 `content/articles/`，使用 Markdown-it、YAML、KaTeX 渲染文章、公式和目录，不再依赖 `import.meta.glob`。文件名决定文章地址，例如 `my-first-note.md` 对应 `/articles/my-first-note`。阅读页左侧目录可独立滚动，并跟随当前章节高亮。
 
 ```markdown
 ---
@@ -60,6 +64,7 @@ type: '指南'
 route: 'AI'
 node: '入门'
 readingTime: '5 分钟'
+published: true
 ---
 
 ## 从一个问题开始
@@ -87,7 +92,7 @@ readingTime: '5 分钟'
 ```text
 app/                 页面与全局样式
 components/          React 组件
-content/             已纳入站点的文章和占位内容
+content/articles/    已批准文章与未公开历史原稿
 lib/articles.ts      服务端 Markdown 读取与渲染
 public/              公开图片资源
 workstation/         本地内容编辑工具

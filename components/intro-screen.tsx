@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from '@/components/site-link';
+import { VisitStats } from '@/components/visit-stats';
 import './intro.css';
 
 export function IntroScreen({ children }: { children?: ReactNode }) {
@@ -57,18 +58,7 @@ export function IntroScreen({ children }: { children?: ReactNode }) {
         inert={opening}
         aria-hidden={opening}
       >
-        <h1>
-          我想记录一些
-          <br />
-          真正值得留下的东西。
-        </h1>
-        <p>
-          关于 AI，
-          <br />
-          关于选择，
-          <br />
-          关于我正在经历的世界。
-        </p>
+        <h1>分享自己的经验，<br />探索AI的边界，<br />寻找同行的人</h1>
         <Link
           className="enter-link"
           href="/blog"
@@ -78,6 +68,7 @@ export function IntroScreen({ children }: { children?: ReactNode }) {
           进入博客 <span aria-hidden="true">↗</span>
         </Link>
       </section>
+      <div className="intro-stats"><VisitStats /></div>
     </div>
   );
 }

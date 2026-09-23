@@ -3,32 +3,33 @@ import Link from '@/components/site-link';
 import { SiteHeader } from '@/components/site-header';
 import { visibleSummaries } from '@/lib/articles';
 import { RandomThought } from '@/components/random-thought';
+import { VisitStats } from '@/components/visit-stats';
 
 export function BlogLayout({
   children,
   active,
   right,
+  left,
   wide = false,
 }: {
   children: ReactNode;
   active: string;
   right?: ReactNode;
+  left?: ReactNode;
   wide?: boolean;
 }) {
   return (
     <div className="blog-page">
       <SiteHeader active={active} />
-      <div className={`blog-grid ${wide ? 'graph-layout' : ''}`}>
-        <aside className="left-sidebar framed" aria-label="个人信息">
+      <div className={`blog-grid ${wide ? 'graph-layout' : ''} ${left ? 'article-grid' : ''} ${right === null ? 'no-right-sidebar' : ''}`}>
+        {left ? <aside className="article-toc-sidebar" aria-label="文章目录">{left}</aside> : <aside className="left-sidebar framed" aria-label="个人信息">
           <div className="profile-block">
-            <div className="avatar-placeholder" aria-label="头像占位">
-              我
+            <div className="avatar-placeholder">
+              <img src="/retenir-avatar.jpg" alt="Retenir 的头像" width="72" height="72" />
             </div>
-            <h2>用户名</h2>
+            <h2>Retenir</h2>
             <p>
-              一句话自我介绍占位。
-              <br />
-              记录、思考、慢慢生长。
+              这个世界太想听年少有为的故事了，但漫慢来，比快快
             </p>
           </div>
           <div className="sidebar-block">
@@ -40,18 +41,16 @@ export function BlogLayout({
             </ul>
           </div>
           <div className="sidebar-block profile-links">
-            <span>
-              GitHub <small>待补充</small>
-            </span>
+            <a href="https://github.com/Retenir8" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
             <Link href="/about#contact">
               联系我 <span aria-hidden="true">↗</span>
             </Link>
           </div>
-        </aside>
+        </aside>}
         <main id="main-content" className="main-panel framed">
           {children}
         </main>
-        <aside className="right-sidebar" aria-label="辅助信息">
+        {right !== null && <aside className="right-sidebar" aria-label="辅助信息">
           {right ?? (
             <>
               <section className="sidebar-block framed recent-sidebar">
@@ -66,10 +65,11 @@ export function BlogLayout({
               <RandomThought />
             </>
           )}
-        </aside>
+        </aside>}
       </div>
       <footer className="blog-footer">
-        <span>© 2026 个人博客</span>
+        <span>© 2026 Retenir 的博客</span>
+        <VisitStats />
         <span>慢慢记录，保持好奇。</span>
       </footer>
     </div>
@@ -100,7 +100,7 @@ export function RecentContent() {
         description="这里记录最近更新的文章和内容。"
       />
       <div className="post-list">
-        {visibleSummaries.map((post, index) => (
+        {visibleSummaries.map((post) => (
           <article className="post-item" key={post.slug}>
             <div className="post-meta">
               <time dateTime={post.dateISO}>{post.date}</time>
@@ -108,7 +108,6 @@ export function RecentContent() {
               <Link href={`/archive?category=${encodeURIComponent(post.tag)}`}>
                 {post.tag}
               </Link>
-              {index === 0 && <span className="pinned-label">置顶</span>}
             </div>
             <h2>
               <Link href={`/articles/${post.slug}`}>{post.title}</Link>

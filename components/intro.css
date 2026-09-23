@@ -39,12 +39,37 @@
     transform 0.5s;
 }
 .intro-copy h1 {
-  font-size: clamp(30px, 3.6vw, 52px);
-  line-height: 1.6;
-  letter-spacing: -0.035em;
-  font-weight: 500;
+  font-family: 'Songti SC', 'STFangsong', 'FangSong', serif;
+  font-size: clamp(34px, 4.2vw, 67px);
+  line-height: 1.48;
+  letter-spacing: 0.015em;
+  font-style: italic;
+  font-weight: 700;
   margin: 0 0 36px;
   text-wrap: balance;
+  background: linear-gradient(112deg, #101e34 7%, #3d6595 48%, #704ca1 83%, #132238 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(77, 96, 151, .12));
+}
+.intro-copy:before {
+  content: 'RETENIR · NOTES FROM EARTH';
+  display: block;
+  margin-bottom: 22px;
+  color: #527798;
+  font: 600 11px/1.5 Georgia, serif;
+  letter-spacing: .28em;
+}
+.intro-copy:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -22px;
+  left: 0;
+  width: 82px;
+  height: 2px;
+  background: linear-gradient(90deg, #3d87ad, #a56fc2);
 }
 .intro-copy p {
   font-size: 17px;
@@ -68,6 +93,19 @@
 }
 .enter-link:hover span {
   transform: translate(2px, -2px);
+}
+.intro-stats {
+  position: absolute;
+  left: clamp(28px, 11.5vw, 210px);
+  bottom: 28px;
+  z-index: 1;
+  color: #607188;
+  font: 12px/1.5 'PingFang SC', system-ui, sans-serif;
+  letter-spacing: .03em;
+  transition: opacity .2s;
+}
+.is-opening .intro-stats {
+  opacity: 0;
 }
 .is-opening .intro-white {
   transform: translateX(-100%);
@@ -103,8 +141,12 @@
     top: 42%;
     max-width: 84%;
   }
+  .intro-stats {
+    left: 8%;
+    bottom: 20px;
+  }
   .intro-copy h1 {
-    font-size: clamp(25px, 6.8vw, 36px);
+    font-size: clamp(29px, 7.2vw, 42px);
     margin-bottom: 24px;
   }
   .intro-copy p {

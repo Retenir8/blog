@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from '@/components/site-link';
 import { BlogLayout, PageHeading } from '@/components/blog-layout';
 import { thoughts } from '@/lib/blog-content';
-export const metadata: Metadata = { title: '思考心得｜个人博客' };
+export const metadata: Metadata = { title: '思考心得｜Retenir 的博客' };
 export default function ThoughtsPage() {
   return (
     <BlogLayout active="thoughts">

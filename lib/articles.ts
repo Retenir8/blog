@@ -83,42 +83,32 @@ markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
   return self.renderToken(tokens, index, options);
 };
 
-function readArticles(folder: 'articles' | 'previews') {
-  const directory = join(process.cwd(), 'content', folder);
+function readArticles() {
+  const directory = join(process.cwd(), 'content', 'articles');
   return Object.fromEntries(readdirSync(directory)
     .filter((name) => /\.mdx?$/.test(name))
     .sort()
     .map((name) => [name, readFileSync(join(directory, name), 'utf8')]));
 }
-const articleModules = readArticles('articles');
+const articleModules = readArticles();
 
 export const articles: Article[] = Object.entries(articleModules)
   .map(([path, source]) => parseArticle(path, source))
   .sort((first, second) => second.dateISO.localeCompare(first.dateISO));
 
-const previewModules = readArticles('previews');
-
-// Design-stage content is isolated so the original writing stays intact.
-export const previewArticles = Object.entries(previewModules)
-  .map(([path, source]) => parseArticle(path, source))
-  .sort((a, b) => b.dateISO.localeCompare(a.dateISO));
-export const previewSummaries: ArticleSummary[] = previewArticles.map(
-  ({ html: _html, toc: _toc, ...summary }) => summary,
-);
-
 export const articleSummaries: ArticleSummary[] = articles.map(
   ({ html: _html, toc: _toc, ...summary }) => summary,
 );
 
-// Publish only explicitly approved articles; retain the existing design entries.
-export const visibleArticles = [...articles.filter(article => article.published), ...previewArticles]
+// Only explicitly approved articles appear in public pages and routes.
+export const visibleArticles = articles.filter(article => article.published)
   .sort((a, b) => b.dateISO.localeCompare(a.dateISO));
 export const visibleSummaries: ArticleSummary[] = visibleArticles.map(
   ({ html: _html, toc: _toc, ...summary }) => summary,
 );
 
 export function getArticle(slug: string) {
-  return [...previewArticles, ...articles].find(
+  return visibleArticles.find(
     (article) => article.slug === slug,
   );
 }

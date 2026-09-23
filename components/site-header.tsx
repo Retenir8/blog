@@ -29,7 +29,7 @@ export function SiteHeader({ active }: { active: string }) {
       </a>
       <div className="nav-shell">
         <Link className="site-brand" href="/">
-          个人博客<span aria-hidden="true">.</span>
+          Retenir 的博客
         </Link>
         <nav className="desktop-nav" aria-label="主导航">
           {links.map(([key, label]) => (

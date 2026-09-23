@@ -1,28 +1,22 @@
 import type { Metadata } from 'next';
 import { BlogLayout, PageHeading } from '@/components/blog-layout';
-export const metadata: Metadata = { title: '关于与合作｜个人博客' };
+export const metadata: Metadata = { title: '关于与合作｜Retenir 的博客' };
 export default function AboutPage() {
   return (
     <BlogLayout active="about">
-      <PageHeading title="关于我" description="一段自我介绍占位文字。" />
+      <PageHeading title="关于我" description="做自己喜欢的事情，拥有独立的人格，才能不被时代裹挟。" />
       <div className="about-profile-mobile">
-        <div className="avatar-placeholder" aria-label="头像占位">
-          我
+        <div className="avatar-placeholder">
+          <img src="/retenir-avatar.jpg" alt="Retenir 的头像" width="72" height="72" />
         </div>
         <div>
-          <h2>用户名</h2>
-          <p>
-            一句话自我介绍占位。
-            <br />
-            最近在做：AI、科研、竞赛。
-          </p>
+          <h2>Retenir</h2>
+          <p>这个世界太想听年少有为的故事了，但漫慢来，比快快</p>
         </div>
       </div>
       <section className="about-section">
         <p>
-          我目前是一名软件与 AI 方向的学生。
-          <br />
-          我关注 AI、科研、竞赛、产品和创业。
+          做自己喜欢的事情，拥有独立的人格，才能不被时代裹挟。
         </p>
       </section>
       <section className="about-section">
@@ -32,15 +26,6 @@ export default function AboutPage() {
             <span key={topic}>{topic}</span>
           ))}
         </div>
-      </section>
-      <section className="about-section">
-        <h2>一些经历</h2>
-        {['2026', '2025', '2024'].map((year) => (
-          <div className="experience-row" key={year}>
-            <time>{year}</time>
-            <span>经历占位，待慢慢补充。</span>
-          </div>
-        ))}
       </section>
       <section className="about-section" id="contact">
         <h2>合作与交流</h2>
@@ -55,21 +40,9 @@ export default function AboutPage() {
           ))}
         </div>
         <div className="contact-layout">
-          <div className="qr-placeholder">
-            微信二维码
-            <br />
-            待补充
-          </div>
           <div className="contact-options">
-            <span>
-              GitHub <small>待补充</small>
-            </span>
-            <span>
-              邮箱 <small>待补充</small>
-            </span>
-            <span>
-              其他联系方式 <small>待补充</small>
-            </span>
+            <a href="https://github.com/Retenir8" target="_blank" rel="noopener noreferrer">GitHub · Retenir8 ↗</a>
+            <a href="mailto:wangxinsong5689@163.com">wangxinsong5689@163.com ↗</a>
           </div>
         </div>
       </section>

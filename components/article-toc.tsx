@@ -1,9 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { TocItem } from '@/lib/articles';
 
 export function ArticleToc({ items }: { items: TocItem[] }) {
   const [current, setCurrent] = useState(items[0]?.id ?? '');
+  const tocRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const update = () => {
       let id = items[0]?.id ?? '';
@@ -27,8 +28,17 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
     window.addEventListener('scroll', scroll, { passive: true });
     return () => window.removeEventListener('scroll', scroll);
   }, [items]);
+  useEffect(() => {
+    const aside = tocRef.current?.parentElement;
+    const active = tocRef.current?.querySelector<HTMLAnchorElement>('a.current');
+    if (!aside || !active) return;
+    const item = active.getBoundingClientRect();
+    const box = aside.getBoundingClientRect();
+    if (item.top < box.top + 20) aside.scrollTop += item.top - box.top - 20;
+    if (item.bottom > box.bottom - 20) aside.scrollTop += item.bottom - box.bottom + 20;
+  }, [current]);
   return (
-    <nav className="toc-panel framed" aria-label="文章目录">
+    <nav ref={tocRef} className="toc-panel framed" aria-label="文章目录">
       <h2>本页目录</h2>
       <ol>
         {items.map((item) => (

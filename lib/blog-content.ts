@@ -7,26 +7,12 @@ export const categories = [
   '成长',
   '其他',
 ];
-export const thoughts = [
+export const thoughts: {id:string;date:string;content:string;tags:string[];post?:string}[] = [
   {
     id: 'one',
-    date: '2026.09.20',
-    content:
-      '这里是一段思考文字占位。可以只有两三句话，记录此刻还没有答案的问题。',
-    tags: ['AI', '成长'],
-  },
-  {
-    id: 'two',
-    date: '2026.09.18',
-    content: '这里是一段随手记占位。留下一点观察，以后再慢慢补充。',
-    tags: ['科研'],
-  },
-  {
-    id: 'three',
-    date: '2026.08.28',
-    content: '这里是一段较长思考的摘要占位。关于选择，也关于正在经历的世界。',
-    tags: ['成长'],
-    post: 'growth-note',
+    date: '2026.09.23',
+    content: '你透支健康换来的优秀，不过是人事档案里随时可替换的几行宋体字。而单位的运转齿轮从未因此停滞半分。人生不是用红头文件衡量的，而是用看见的花开、听见雨声的瞬间拼凑的。毕竟，你熬的夜、拼的命、流的泪，最后都成了档案袋里轻飘飘白A4纸，而你错过的晚霞、失约的晚餐、没牵到的手，才是永远无法补录的人生正文。',
+    tags: [],
   },
 ];
 export const knowledgeNodes = [
