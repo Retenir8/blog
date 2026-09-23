@@ -4,7 +4,8 @@
 
 - 源码仓库：https://github.com/Retenir8/blog （可见性由所有者管理，部署不要求公开）
 - 旧站：https://blog.retenir.chatgpt.site （迁移期间保留，不再作为新部署目标）
-- Vercel 地址：首次部署成功后填写；本地配置不代表已上线。
+- Vercel 正式地址：https://blog-three-chi-24.vercel.app
+- Vercel 项目：https://vercel.com/retenir8/blog （已连接 GitHub 的 `main` 分支）
 - Node.js：24.x；包管理器：pnpm；具体依赖锁定在 `pnpm-lock.yaml`。
 
 ## 本地运行
