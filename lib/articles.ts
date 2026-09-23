@@ -24,6 +24,7 @@ export type ArticleSummary = {
   node: string;
   readingTime: string;
   searchText: string;
+  published: boolean;
 };
 
 export type Article = ArticleSummary & {
@@ -41,6 +42,7 @@ type ArticleFrontMatter = {
   route?: unknown;
   node?: unknown;
   readingTime?: unknown;
+  published?: unknown;
 };
 
 type RenderEnvironment = {
@@ -108,6 +110,13 @@ export const articleSummaries: ArticleSummary[] = articles.map(
   ({ html: _html, toc: _toc, ...summary }) => summary,
 );
 
+// Publish only explicitly approved articles; retain the existing design entries.
+export const visibleArticles = [...articles.filter(article => article.published), ...previewArticles]
+  .sort((a, b) => b.dateISO.localeCompare(a.dateISO));
+export const visibleSummaries: ArticleSummary[] = visibleArticles.map(
+  ({ html: _html, toc: _toc, ...summary }) => summary,
+);
+
 export function getArticle(slug: string) {
   return [...previewArticles, ...articles].find(
     (article) => article.slug === slug,
@@ -138,6 +147,7 @@ function parseArticle(path: string, source: string): Article {
 
   return {
     slug,
+    published: metadata.published === true,
     title: requireString(metadata.title, 'title', path),
     description: requireString(metadata.description, 'description', path),
     lead: requireString(metadata.lead, 'lead', path),

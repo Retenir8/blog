@@ -5,7 +5,7 @@ import {
   KnowledgePanel,
   KnowledgeProvider,
 } from '@/components/knowledge-map';
-import { previewSummaries } from '@/lib/articles';
+import { visibleSummaries } from '@/lib/articles';
 export const metadata: Metadata = { title: '知识图谱｜个人博客' };
 export default function KnowledgePage() {
   return (
@@ -13,13 +13,13 @@ export default function KnowledgePage() {
       <BlogLayout
         active="knowledge"
         wide
-        right={<KnowledgePanel posts={previewSummaries} />}
+        right={<KnowledgePanel posts={visibleSummaries} />}
       >
         <PageHeading
           title="知识图谱"
           description="一些方向，和它们之间慢慢长出的联系。"
         />
-        <KnowledgeGraph posts={previewSummaries} />
+        <KnowledgeGraph posts={visibleSummaries} />
       </BlogLayout>
     </KnowledgeProvider>
   );

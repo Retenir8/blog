@@ -3,7 +3,7 @@ import Link from '@/components/site-link';
 import { notFound } from 'next/navigation';
 import { BlogLayout } from '@/components/blog-layout';
 import { ArticleToc } from '@/components/article-toc';
-import { articles, previewArticles, getArticle } from '@/lib/articles';
+import { articles, previewArticles, visibleArticles, getArticle } from '@/lib/articles';
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
   return [...previewArticles, ...articles].map((article) => ({
@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ArticlePage({ params }: Props) {
   const article = getArticle((await params).slug);
   if (!article) notFound();
-  const collection = previewArticles.some((item) => item.slug === article.slug)
-    ? previewArticles
+  const collection = visibleArticles.some((item) => item.slug === article.slug)
+    ? visibleArticles
     : articles;
   const index = collection.findIndex((item) => item.slug === article.slug);
   const previous = collection[index + 1],

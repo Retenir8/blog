@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from '@/components/site-link';
 import { SiteHeader } from '@/components/site-header';
-import { previewSummaries } from '@/lib/articles';
+import { visibleSummaries } from '@/lib/articles';
 import { RandomThought } from '@/components/random-thought';
 
 export function BlogLayout({
@@ -56,7 +56,7 @@ export function BlogLayout({
             <>
               <section className="sidebar-block framed recent-sidebar">
                 <h3>近期</h3>
-                {previewSummaries.slice(0, 3).map((post) => (
+                {visibleSummaries.slice(0, 3).map((post) => (
                   <Link href={`/articles/${post.slug}`} key={post.slug}>
                     <time>{post.date.slice(5)}</time>
                     <span>{post.title}</span>
@@ -100,7 +100,7 @@ export function RecentContent() {
         description="这里记录最近更新的文章和内容。"
       />
       <div className="post-list">
-        {previewSummaries.map((post, index) => (
+        {visibleSummaries.map((post, index) => (
           <article className="post-item" key={post.slug}>
             <div className="post-meta">
               <time dateTime={post.dateISO}>{post.date}</time>

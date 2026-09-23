@@ -45,7 +45,7 @@ pnpm start
 
 `/` 开场；`/blog` 近期；`/archive` 搜索；`/thoughts` 思考；`/knowledge` 图谱；`/about` 关于；`/articles/[slug]` 文章。旧 `/articles`、`/guides`、`/map`、`/practice`、`/collaborate` 入口保留跳转。
 
-本次只迁移框架，不更改展示内容。列表当前仍使用 `content/previews/` 的设计占位内容；原文章位于 `content/articles/`，历史链接继续可用。发布新内容时须同步切换 `previewSummaries` / `previewArticles` 的展示入口，不能只复制文章文件。
+列表、归档与知识图谱统一使用 `visibleSummaries`：展示 `content/articles/` 中设置 `published: true` 的已批准文章，以及原有 `content/previews/` 设计内容。未标记的历史文章仍可通过原链接访问，不自动加入列表。发布新文时在 Front Matter 中添加 `published: true`，并确认分类与正文后提交。
 
 `lib/articles.ts` 只在服务端读取 `content/`，使用 Markdown-it、YAML、KaTeX 渲染文章、公式和目录，不再依赖 `import.meta.glob`。文件名决定文章地址，例如 `my-first-note.md` 对应 `/articles/my-first-note`。
 
