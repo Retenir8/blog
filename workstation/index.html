@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>本地内容工作站</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <span class="eyebrow">LOCAL EDITOR / 仅本机</span>
+        <h1>把想法，整理成文章。</h1>
+        <p>写作 → 检查 → 保存待发布 → 交给我更新博客</p>
+      </div>
+      <a class="quiet" href="/template.md" download="文章模板.md"
+        >下载 Markdown 模板 ↗</a
+      >
+    </header>
+    <main>
+      <aside>
+        <div class="aside-title">
+          <h2>本地资料</h2>
+          <button id="refresh" class="quiet">刷新</button>
+        </div>
+        <p class="muted">每次保存都是独立版本，不覆盖原稿。</p>
+        <div id="library"></div>
+        <div class="privacy">
+          <strong>你的草稿留在本机</strong>
+          <p>
+            不上传云端，不自动发布。关闭浏览器前请保存，编辑区不会自动备份。
+          </p>
+          <small id="folder"></small>
+        </div>
+      </aside>
+      <section class="workspace">
+        <div class="toolbar">
+          <button id="new">使用内置模板</button
+          ><label class="button quiet"
+            >导入文章<input
+              id="import"
+              type="file"
+              accept=".md,.mdx,text/markdown" /></label
+          ><label class="button quiet"
+            >导入 MD 模板<input
+              id="import-template"
+              type="file"
+              accept=".md,.mdx,text/markdown" /></label
+          ><button id="download" class="quiet">导出当前 MD</button>
+        </div>
+        <div class="fields">
+          <label
+            >文章地址（slug）<input
+              id="slug"
+              placeholder="my-first-note"
+              autocomplete="off" /></label
+          ><label
+            >发布备注（选填）<input
+              id="notes"
+              placeholder="例如：加入 AI 分类；替换哪篇文章需确认"
+          /></label>
+        </div>
+        <div class="editor-heading">
+          <h2>Markdown 编辑</h2>
+          <span id="dirty" class="muted">尚未编辑</span>
+        </div>
+        <div class="editors">
+          <textarea
+            id="source"
+            spellcheck="false"
+            aria-label="Markdown 正文"
+            placeholder="导入 .md 文件，或使用上方模板开始写作。"
+          ></textarea>
+          <div class="preview">
+            <div class="preview-label">
+              内容预览 · 非线上页面 · 图片不联网加载
+            </div>
+            <iframe
+              id="preview"
+              title="Markdown 内容预览"
+              sandbox="allow-same-origin"
+            ></iframe>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="check" class="quiet">检查并预览</button
+          ><button id="draft" class="quiet">保存草稿</button
+          ><button id="template" class="quiet">另存为模板</button
+          ><button id="ready">保存到待发布 →</button>
+        </div>
+        <div id="status" role="status" aria-live="polite">等待导入文章。</div>
+        <div id="checks"></div>
+        <section id="handoff-panel" hidden>
+          <h2>交给我发布</h2>
+          <p>
+            复制以下说明发送给我即可。这一步只保存本地文件，尚未推送 GitHub 或发布到 Vercel。
+          </p>
+          <textarea id="handoff" readonly aria-label="发布交付说明"></textarea
+          ><button id="copy" class="quiet">复制交付说明</button>
+        </section>
+        <details>
+          <summary>字段填写与图片说明</summary>
+          <p>
+            title 标题；description 列表摘要；lead 导语；date
+            日期（用引号包裹）；tag 分类；type 内容类型（指南 / 实践 /
+            思考）；route 知识方向；node 节点（入门 / 实践 / 思考）；readingTime
+            阅读时长。以上均填写文字。
+          </p>
+          <p>
+            建议分类：AI、科研、竞赛、产品、创业、成长、其他。支持
+            Markdown、代码和 KaTeX 公式；MDX 当前只支持 Markdown 语法，不执行
+            JSX。图片请连同原文件交给我，发布时统一整理。
+          </p>
+          <p>
+            当前线上列表仍使用设计阶段内容，发布新文章时还需要接入正式列表与知识图谱，工作站不会擅自改动它们。
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer>本地内容工作站 · 独立于公开博客 · 无自动发布</footer>
+  </body>
+</html>

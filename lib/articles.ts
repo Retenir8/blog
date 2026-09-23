@@ -1,3 +1,6 @@
+import 'server-only';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import MarkdownIt from 'markdown-it';
 import texmath from 'markdown-it-texmath';
 import { parse as parseYaml } from 'yaml';
@@ -78,24 +81,20 @@ markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
   return self.renderToken(tokens, index, options);
 };
 
-const articleModules = import.meta.glob<string>(
-  '../content/articles/*.{md,mdx}',
-  {
-    eager: true,
-    import: 'default',
-    query: '?raw',
-  },
-);
+function readArticles(folder: 'articles' | 'previews') {
+  const directory = join(process.cwd(), 'content', folder);
+  return Object.fromEntries(readdirSync(directory)
+    .filter((name) => /\.mdx?$/.test(name))
+    .sort()
+    .map((name) => [name, readFileSync(join(directory, name), 'utf8')]));
+}
+const articleModules = readArticles('articles');
 
 export const articles: Article[] = Object.entries(articleModules)
   .map(([path, source]) => parseArticle(path, source))
   .sort((first, second) => second.dateISO.localeCompare(first.dateISO));
 
-const previewModules = import.meta.glob<string>('../content/previews/*.md', {
-  eager: true,
-  import: 'default',
-  query: '?raw',
-});
+const previewModules = readArticles('previews');
 
 // Design-stage content is isolated so the original writing stays intact.
 export const previewArticles = Object.entries(previewModules)

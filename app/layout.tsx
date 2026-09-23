@@ -4,7 +4,10 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { themeScript } from '@/lib/theme';
 
-const siteUrl = 'https://blog.retenir.chatgpt.site';
+const siteUrl = process.env.SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'http://localhost:3000');
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

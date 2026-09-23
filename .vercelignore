@@ -1,0 +1,8 @@
+.local-workstation
+resource
+workstation
+启动本地工作站.command
+outputs
+work
+.openai
+.wrangler

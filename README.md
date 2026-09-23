@@ -1,142 +1,98 @@
 # 个人博客
 
-一个部署在 OpenAI Sites 上的个人博客，按 v2 规格重构为黑白斜切开场、浅蓝天空与半个地球背景、传统三栏阅读布局。保留 Vinext、React 和原有 Markdown 渲染系统。
+使用 **Next.js 16.3.6 App Router + React + TypeScript + Tailwind CSS**，保留昼夜天空、NASA 地球背景、开场动画和 Markdown 文章系统。部署目标为 **GitHub + Vercel Git 自动部署**，支持私有仓库。
 
-## 页面与交互
-
-- `/`：不滚动的黑白开场；点击进入后，两片幕布分开，露出博客。首次会话动画 1100ms，重复进入缩短；支持减少动态效果。
-- `/blog`：近期发布，文字列表，最多一条置顶。
-- `/archive`：分类、月份归档与全文搜索；结果在本页更新。
-- `/thoughts`：短思考时间流。
-- `/knowledge`：六个稳定的星球节点、关联线、桌面右侧详情、移动端底部抽屉。
-- `/about`：关于、经历与合作，联系方式明确标记待补充。
-- `/articles/[slug]`：Markdown 阅读页，桌面章节目录与前后篇导航。
-
-旧的 `/articles`、`/guides`、`/practice`、`/map`、`/collaborate` 入口分别重定向到新栏目，历史文章链接继续可访问。
-
-本阶段按设计规格只展示四篇简单占位文章，存放于 `content/previews/`。原有正文保留在 `content/articles/`，未覆盖。切换正式内容时，把页面使用的 `previewSummaries` / `previewArticles` 替换为对应的正式集合即可。
-
-昼夜主题保存在本机 `localStorage`；首次默认白天天空。地球使用 NASA 专业卫星合成影像，来源和鸣谢记录在 `ASSETS.md` 与关于页，图片随站点发布，不依赖外部图片请求。
-
-- 当前线上地址：<https://blog.retenir.chatgpt.site>
-- Sites 项目配置：`.openai/hosting.json`
-- 包管理器：pnpm
-- Node.js：22.13.0 或更高版本
-
-## 技术框架
-
-这个项目主要使用以下技术：
-
-- **Vinext 1.0.0-beta.5**：兼容 Next.js App Router 开发方式、基于 Vite 与 React Server Components 的站点框架。
-- **React 19.2.6 / React DOM 19.2.6**：页面组件与交互。
-- **TypeScript 5.9.3**：类型安全的 JavaScript 开发。
-- **Vite 8.0.13**：开发服务器与生产构建。
-- **Tailwind CSS 4.2.1**：基础样式系统。
-- **shadcn / Base UI**：搜索框、按钮等界面基础组件。
-- **Lucide React**：界面图标。
-- **Markdown-it / YAML**：读取文章 Front Matter，并在构建时渲染 Markdown 正文。
-- **KaTeX / markdown-it-texmath**：构建时渲染行内与独立数学公式。
-- **OpenAI Sites Vite Plugin 0.2.0**：生成适用于 OpenAI Sites 的部署产物。
-- **Cloudflare Workers / Wrangler**：Sites 服务端运行环境与本地调试支持。
-
-## 项目目录
-
-```text
-app/                 开场、近期、归档、思考、图谱、关于、文章与全局样式
-components/          站点组件和界面基础组件
-content/articles/     每篇文章一个 Markdown / MDX 文件
-content/previews/     v2 设计阶段占位文章，独立于原始内容
-lib/articles.ts       Markdown 加载、解析、目录和搜索索引
-public/              图标与站点静态资源
-.openai/hosting.json OpenAI Sites 项目标识和资源配置
-package.json         依赖与项目命令
-vite.config.ts       Vite、Vinext 和 Sites 构建配置
-```
-
-`node_modules/`、`dist/`、`.next/`、`.vinext/` 和 `.wrangler/` 都是依赖或可重新生成的构建缓存，因此没有随迁移复制。运行下面的安装和构建命令即可重新生成。
+- 源码仓库：https://github.com/Retenir8/blog （可见性由所有者管理，部署不要求公开）
+- 旧站：https://blog.retenir.chatgpt.site （迁移期间保留，不再作为新部署目标）
+- Vercel 地址：首次部署成功后填写；本地配置不代表已上线。
+- Node.js：24.x；包管理器：pnpm；具体依赖锁定在 `pnpm-lock.yaml`。
 
 ## 本地运行
 
-```bash
-pnpm install
+```sh
+pnpm install --frozen-lockfile
 pnpm dev
-```
-
-开发服务器默认打开：<http://localhost:3000>
-
-## 生产构建
-
-```bash
+# http://localhost:3000
+pnpm workstation:test
 pnpm build
+pnpm typecheck
+pnpm start
 ```
 
-构建完成后，Sites 服务端入口位于 `dist/server/index.js`。
+构建输出为 `.next/`。不再使用 Vinext、Vite、Sites 插件或 Cloudflare Workers；旧配置可从 Git 历史恢复，迁移不会删除旧线上站点。
 
-## 发布到 OpenAI Sites
+## GitHub + Vercel 自动部署
 
-项目已经关联现有的 OpenAI Sites 站点，不要删除或手动修改 `.openai/hosting.json` 中的 `project_id`。后续通过 Codex 修改并发布时，应继续复用该项目，这样线上地址和历史版本不会被重新创建。
+1. 确认 `Retenir8/blog` 的可见性符合预期。仓库若已有内容，先拉取审查并合并，禁止强制覆盖。
+2. 将源码推送到生产分支（通常 `main`），不要上传本地草稿、`resource/` 或 `.env`。
+3. 登录 Vercel → Add New → Project，导入 `Retenir8/blog`；如果仓库未显示，需要所有者授权 Vercel 访问这个私有仓库。
+4. Framework Preset：**Next.js**；Root Directory：仓库根目录；Node.js：**24.x**。安装和构建命令见 `vercel.json`，Output Directory 保持默认，不要填写 `dist`。
+5. 首次部署 Ready 后，在 Settings → Git 确认生产分支为 `main`。以后推送生产分支自动发布，其他分支 / PR 生成预览部署。
+6. 测试导航、文章、搜索、主题和手机菜单。推送成功不等于部署成功，必须查看 Vercel 部署结果。
 
-发布到 OpenAI Sites 不要求把源码放到公开 GitHub 仓库。Sites 会使用自己的站点源码仓库与版本系统；如需额外备份，也可以自行推送到 GitHub。
+使用 Vercel 原生 Git 集成，无需在仓库放置 Vercel Token。`.github/workflows/ci.yml` 只负责测试和构建，与 Vercel 部署独立。账号登录、私有仓库授权需要所有者完成，不要将密码或令牌提交到源码或聊天。
 
-## 使用自己的域名
+官方说明：https://vercel.com/docs/git/vercel-for-github
 
-**可以。** 当前站点支持绑定自有域名，但现在还没有添加任何自定义域名。
+### 域名
 
-绑定流程：
+默认通过 `VERCEL_PROJECT_PRODUCTION_URL` 设置网站元数据地址，本地回退到 `http://localhost:3000`。自有域名在 Vercel Settings → Domains 添加，按控制台给出的 DNS 记录配置；绑定后设置环境变量 `SITE_URL=https://你的域名` 并重新部署。示例见 `.env.example`。
 
-1. 准备一个自己拥有并可管理 DNS 的域名，例如 `blog.example.com` 或 `example.com`。
-2. 在 OpenAI Sites 中把该域名添加到当前站点。也可以直接让 Codex 为这个 Sites 项目执行绑定。
-3. Sites 会返回需要配置的 DNS 记录：
-   - 子域名通常配置 **CNAME** 记录；
-   - 根域名通常配置 Sites 返回的 **A** 记录；
-   - 同时按返回结果添加域名所有权验证记录。
-4. 等待 DNS 和 SSL 证书状态变为生效，之后即可通过自有域名访问站点。
+旧 `chatgpt.site` 平台子域名不会迁移到 Vercel，新部署获得 `vercel.app` 地址或使用自有域名。确认迁移完成后再单独决定是否关闭旧站。
 
-绑定域名前需要提供准备使用的完整域名。DNS 记录必须在该域名的注册商或 DNS 服务商后台设置。
+## 页面与内容
 
-## 内容维护
+`/` 开场；`/blog` 近期；`/archive` 搜索；`/thoughts` 思考；`/knowledge` 图谱；`/about` 关于；`/articles/[slug]` 文章。旧 `/articles`、`/guides`、`/map`、`/practice`、`/collaborate` 入口保留跳转。
 
-博客文章保存在 `content/articles/`，每篇文章对应一个 `.md` 或 `.mdx` 文件。文件名会成为文章地址，例如：
+本次只迁移框架，不更改展示内容。列表当前仍使用 `content/previews/` 的设计占位内容；原文章位于 `content/articles/`，历史链接继续可用。发布新内容时须同步切换 `previewSummaries` / `previewArticles` 的展示入口，不能只复制文章文件。
+
+`lib/articles.ts` 只在服务端读取 `content/`，使用 Markdown-it、YAML、KaTeX 渲染文章、公式和目录，不再依赖 `import.meta.glob`。文件名决定文章地址，例如 `my-first-note.md` 对应 `/articles/my-first-note`。
+
+```markdown
+---
+title: '文章标题'
+description: '列表摘要'
+lead: '文章导语'
+date: '2026-09-23'
+tag: 'AI'
+type: '指南'
+route: 'AI'
+node: '入门'
+readingTime: '5 分钟'
+---
+
+## 从一个问题开始
+
+正文支持标题、表格、代码、图片和 $t = L / R$ 公式。
+```
+
+`.mdx` 当前仅兼容 Markdown 写法，不执行 JSX。图片放入 `public/`，来源见 `ASSETS.md`。导航暂保留原生文档跳转与无脚本访问能力。
+
+## 本地内容工作站
+
+双击 `启动本地工作站.command`，或运行 `pnpm workstation`，打开 http://127.0.0.1:4317 。按 Ctrl+C 停止；端口占用可执行 `PORT=4318 pnpm workstation`。
+
+1. 导入 Markdown / MD 模板，或使用 `workstation/template.md`。
+2. 编辑并检查，预览 Markdown、代码和公式；不联网加载图片，不执行 HTML/JSX。
+3. 保存草稿或保存到待发布，复制交付说明发给 Codex。
+4. Codex 检查图片、分类和同名冲突，将确认的内容接入博客源码，推送 GitHub，由 Vercel 自动构建并验证部署。
+
+每次保存独立版本。草稿、模板和待发布文件位于 `.local-workstation/{drafts,templates,ready}/`，已被 Git 忽略；`resource/` 是未确认资料，也不上传。工作站代码可以进入私有仓库，个人草稿数据不会上传。编辑区不自动保存，关闭前请保存并自行备份。
+
+工作站使用独立 Node.js 服务，仅绑定本机回环地址，有 Host、Origin 和请求令牌校验，不持有 GitHub / Vercel 凭据，不自动发布。请勿通过隧道或反向代理公开。
+
+## 目录
 
 ```text
-content/articles/my-first-note.md
-→ /articles/my-first-note
+app/                 页面与全局样式
+components/          React 组件
+content/             已纳入站点的文章和占位内容
+lib/articles.ts      服务端 Markdown 读取与渲染
+public/              公开图片资源
+workstation/         本地内容编辑工具
+.local-workstation/  私人草稿（忽略）
+resource/            未确认资料（忽略）
+next.config.ts       Next.js 配置
+postcss.config.mjs   Tailwind 构建配置
+vercel.json          Vercel 部署设置
 ```
-
-文章使用 YAML Front Matter 管理标题、摘要、日期、类型与知识位置：
-
-```markdown
----
-title: 文章标题
-description: 用于文章列表和搜索结果的摘要
-lead: 文章页标题下方的导语
-date: '2026-09-20'
-tag: 技术观察
-type: 思考
-route: AI 技能
-node: 让 AI 成为协作者
-readingTime: 6 分钟
----
-
-## 第一节
-
-从这里开始写正文。
-```
-
-`type` 用于把内容分为指南、实践与思考，`route` 和 `node` 用于文章页的路线定位与知识地图关联。正文支持标题、列表、引用、链接、图片、表格、代码块和数学公式；目录会根据二级、三级标题自动生成，搜索会覆盖元数据和 Markdown 正文。`.mdx` 文件当前兼容 Markdown 写法并为后续扩展预留入口，正文中的 JSX 自定义组件暂未启用。
-
-行内公式使用 `$t = L / R$`，独立公式使用：
-
-```markdown
-$$
-C = B \log_2(1 + S/N)
-$$
-```
-
-首页模块位于 `app/page.tsx`，文章读取逻辑位于 `lib/articles.ts`，全站样式位于 `app/globals.css`。
-
-## 昼夜背景与导航兼容
-
-浅蓝主题使用真实云层摄影，深蓝主题使用 ESO 银河摄影；地球背景在桌面端宽度为视口的 104%，两侧接近屏幕边缘。图片随站点部署，不依赖第三方图片服务，来源与许可见 `ASSETS.md`。主题选择保存在浏览器本地。
-
-站内导航统一使用 `components/site-link.tsx` 原生链接，绕过当前 Vinext beta 正式构建的 RSC 预取异常；切换页面会进行完整文档导航，保留链接、浏览器前进后退和无脚本访问能力。开场动画完成后同样采用文档导航。
